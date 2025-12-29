@@ -7,14 +7,13 @@ const useFetch = (url) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Reset states when URL changes
+  
     setLoading(true);
     setError(null);
 
     const fetchData = async () => {
       try {
-        const response = await fetch(url); // Fetching data 
-
+        const response = await fetch(url); 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -22,15 +21,14 @@ const useFetch = (url) => {
         const result = await response.json();
         setData(result);
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [url]); 
-
   return { data, loading, error };
 };
 

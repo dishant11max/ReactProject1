@@ -21,6 +21,7 @@ const App = () => {
       
       <div className="grid-container">
         {data.slice(0, 20).map((item) => (
+          
           <div key={item.id} className="card">
             <div className="image-container">
               <img src={item.images[0]} alt={item.title} />

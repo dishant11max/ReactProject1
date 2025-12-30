@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
 
   const { data, loading, error } = useFetch('https://api.escuelajs.co/api/v1/products');
-
+  console.log(data)
   return (
     <div className="app-container">
       <h1 className="header">Photos</h1>

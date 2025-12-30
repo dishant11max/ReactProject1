@@ -1,34 +1,38 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import './App.css'; 
 
-const useFetch = (url) => {
-  const [data, setData] = useState(null);
+const App = () => {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-  
-    setLoading(true);
-    setError(null);
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url); 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
+    fetch('https://api.escuelajs.co/api/v1/products')
+      .then(response => response.json())
+      .then(result => {
         setData(result);
-      } catch (err) {
-        setError(err.message);
-      } finally {
         setLoading(false);
-      }
-    };
+      });
+  }, []);
 
-    fetchData();
-  }, [url]); 
-  return { data, loading, error };
+  return (
+    <div className="app-container">
+      <h1 className="header">Photos</h1>
+      {loading && <div className="loading">Loading...</div>}
+      
+      <div className="grid-container">
+        {data.slice(0, 20).map((item) => (
+          <div key={item.id} className="card">
+            <div className="image-container">
+              <img src={item.images[0]} alt={item.title} />
+            </div>
+            <div className="card-content">
+              <p>{item.title}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default useFetch;
+export default App;

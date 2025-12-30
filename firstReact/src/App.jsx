@@ -3,8 +3,8 @@ import useFetch from './useFetch.jsx';
 import './App.css'; 
 
 const App = () => {
-  // We still fetch from the API to get the titles/text
-  const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/photos');
+
+  const { data, loading, error } = useFetch('https://api.escuelajs.co/api/v1/products');
 
   return (
     <div className="app-container">
@@ -13,20 +13,15 @@ const App = () => {
       {loading && <div className="loading">Loading data...</div>}
 
       {error && <div className="error">Error: {error}</div>}
-
-      {data && (
+      {data && Array.isArray(data) ? (
         <div className="grid-container">
-          {/* Slicing to first 20 items */}
           {data.slice(0, 20).map((item) => (
             <div key={item.id} className="card">
               <div className="image-container">
-                {/* FIX: Instead of using item.url (which might be blocked),
-                   we use 'picsum.photos' to generate a real random image 
-                   based on the item ID.
-                */}
                 <img 
-                  src={`https://picsum.photos/600/600?random=${item.id}`} 
+                  src={item.images ? item.images[0] : ''} 
                   alt={item.title} 
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/300' }} 
                 />
               </div>
               <div className="card-content">
@@ -35,9 +30,10 @@ const App = () => {
             </div>
           ))}
         </div>
+      ) : (
+        !loading && <div>No data found or data format incorrect. Check Console.</div>
       )}
     </div>
   );
 };
-
 export default App;

@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
   const { data, loading, error } = useFetch('https://api.escuelajs.co/api/v1/products');
   
-  console.log(data); // checking what data looks like
+  console.log(data); // checking how the data looks loke
   
   return (
     <div className="app-container">
